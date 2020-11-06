@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var request = require("request");
 var app = express();
+var {getMoviesByGenre} = require('./helper/apiHelpers.js')
 
 // Sign up and get your moviedb API key here:
 // https://www.themoviedb.org/account/signup
