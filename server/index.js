@@ -2,7 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var request = require("request");
 var app = express();
-var {getMoviesByGenre} = require('./helper/apiHelpers.js')
+var {getMoviesByGenre} = require('./helpers/apiHelpers.js')
 
 // Sign up and get your moviedb API key here:
 // https://www.themoviedb.org/account/signup
@@ -44,6 +44,7 @@ app.get("/genres", function(req, res) {
 });
 
 app.get("/search", function(req, res) {
+  getMoviesByGenre(req.body.genre);
   // use this endpoint to search for movies by genres (using API key): https://api.themoviedb.org/3/discover/movie
   // and sort them by votes (worst first) using the search parameters in themoviedb API
   // do NOT save the results into the database; render results directly on the page

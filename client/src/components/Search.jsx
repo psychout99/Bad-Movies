@@ -11,6 +11,8 @@ class Search extends React.Component {
     //make an axios request in this component to get the list of genres from your endpoint GET GENRES
   }
 
+
+  
   render() {
     return (
       <div className="search">
@@ -27,7 +29,7 @@ class Search extends React.Component {
         </select>
         <br/><br/>
 
-        <button>Search</button>
+        <button onClick={}>Search</button>
 
       </div>
     );
