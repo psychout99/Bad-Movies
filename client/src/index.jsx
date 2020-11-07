@@ -21,7 +21,17 @@ class App extends React.Component {
     this.swapFavorites = this.swapFavorites.bind(this);
     this.getGenres = this.getGenres.bind(this);
     this.setSearch = this.setSearch.bind(this);
+    this.getAllFaves = this.getAllFaves.bind(this);
+    this.getAllFaves();
     // you might have to do something important here!
+  }
+  getAllFaves() {
+    axios('/faves').then((results) => {
+      //console.log(results);
+      for (var movie of results.data) {
+        this.addFave(movie);
+      }
+    });
   }
 
   getGenres(event) {
@@ -55,7 +65,6 @@ class App extends React.Component {
     var faves = this.state.favorites;
     faves[movie.id] = movie;
     this.setState({favorites: faves});
-    console.log(this.state);
   }
   deleteFave(id) {
     var faves = this.state.favorites;

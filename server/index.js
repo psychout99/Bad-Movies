@@ -64,7 +64,7 @@ app.get("/search", function(req, res) {
 
 app.post("/save", function(req, res) {
   //save movie as favorite into the database
-  schema.save(req.body, () => {
+  schema.save(req.body, (data) => {
     res.send();
   });
 });
