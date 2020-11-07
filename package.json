@@ -29,6 +29,7 @@
     "mysql": "^2.15.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "underscore": "^1.11.0"
   }
 }

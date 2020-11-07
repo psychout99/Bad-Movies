@@ -10,28 +10,39 @@ class App extends React.Component {
   constructor(props) {
   	super(props)
   	this.state = {
-      movies: [{deway: "movies"}],
-      favorites: [{deway: "favorites"}],
+      movies: [{title: "De Wae", id: 1, release_date:'2020',vote_average:10.0}],
+      favorites: {},
       showFaves: false,
+      title: ''
     };
     this.getMovies = this.getMovies.bind(this);
-    this.saveMovie = this.saveMovie.bind(this);
-    this.deleteMovie = this.deleteMovie.bind(this);
+    this.addFave = this.addFave.bind(this);
+    this.deleteFave = this.deleteFave.bind(this);
     this.swapFavorites = this.swapFavorites.bind(this);
+    this.getGenres = this.getGenres.bind(this);
+    this.setSearch = this.setSearch.bind(this);
     // you might have to do something important here!
   }
 
+  getGenres(event) {
+    var index = event.target.options.selectedIndex;
+    if (index > 0) {
+    var id = event.target.options[index].value;
+    axios(`/genres?genre=${id}`).then((results) => {
+      this.setState({movies: results.data});
+    });
+  }
+  }
+  setSearch(event) {
+    this.setState({title: event.target.value});
+  }
+
   getMovies() {
+    this.setState({showFaves: false});
     // make an axios request to your server on the GET SEARCH endpoint
-    axios();
-  }
-
-  saveMovie() {
-    // same as above but do something diff
-  }
-
-  deleteMovie() {
-    // same as above but do something diff
+    axios(`/search?title=${this.state.title}`).then((results) => {
+      this.setState({movies: results.data});
+    });
   }
 
   swapFavorites() {
@@ -40,6 +51,17 @@ class App extends React.Component {
       showFaves: !this.state.showFaves
     });
   }
+  addFave(movie) {
+    var faves = this.state.favorites;
+    faves[movie.id] = movie;
+    this.setState({favorites: faves});
+    console.log(this.state);
+  }
+  deleteFave(id) {
+    var faves = this.state.favorites;
+    delete faves[id];
+    this.setState({favorites: faves});
+  }
 
   render () {
   	return (
@@ -47,8 +69,16 @@ class App extends React.Component {
         <header className="navbar"><h1>Bad Movies</h1></header> 
         
         <div className="main">
-          <Search swapFavorites={this.swapFavorites} showFaves={this.state.showFaves} getMovies={this.getMovies}/>
-          <Movies movies={this.state.showFaves ? this.state.favorites : this.state.movies} showFaves={this.state.showFaves}/>
+          <Search getGenres={this.getGenres} 
+          swapFavorites={this.swapFavorites} 
+          showFaves={this.state.showFaves} 
+          setSearch={this.setSearch} 
+          getMovies={this.getMovies}/>
+          <Movies movies={this.state.showFaves ? this.state.favorites : this.state.movies} 
+          showFaves={this.state.showFaves}
+          addFave={this.addFave}
+          deleteFave={this.deleteFave}
+          showFaves={this.state.showFaves}/>
         </div>
       </div>
     );

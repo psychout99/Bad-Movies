@@ -1,4 +1,7 @@
+const axios = require('axios');
 import React from 'react';
+const _ = require('underscore');
+const { API_KEY } = require('../../../config.js');
 
 class Search extends React.Component {
   constructor(props) {
@@ -6,12 +9,15 @@ class Search extends React.Component {
     this.state = {
       genres: []
     };
+    this.getGenres.bind(this);
+    this.getGenres();
   }
   getGenres() {
+    axios(`http://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`).then((data) => {
+      this.setState({genres: data.data.genres});
+    })
     //make an axios request in this component to get the list of genres from your endpoint GET GENRES
   }
-
-
   
   render() {
     return (
@@ -22,14 +28,15 @@ class Search extends React.Component {
         {/* Make the select options dynamic from genres !!! */}
         {/* How can you tell which option has been selected from here? */}
 
-        <select>
-          <option value="theway">The Way</option>
-          <option value="thisway">This Way</option>
-          <option value="thatway">That Way</option>
+        <select onChange={this.props.getGenres}>
+          <option>Genres</option>
+          {_.map(this.state.genres, (genre) => {
+            return (<option key={genre.id} value={genre.id}>{genre.name}</option>);
+          })}
         </select>
         <br/><br/>
 
-        <button onClick={}>Search</button>
+        <input onChange={this.props.setSearch}></input><button onClick={this.props.getMovies}>Search</button>
 
       </div>
     );
